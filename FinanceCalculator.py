@@ -10,48 +10,30 @@ def g():
     HowManyFiveYearPeriods0 = int(E1.get())
     BarChart(interestRates0, contributions0, HowManyFiveYearPeriods0)
 
+root = tk.Tk()
 top = tk.Tk()
 top.title("Gathering Info:")
-L1 = tk.Label(top, text="How many five year periods?")
-L1.pack( side = 'top')
+L1 = tk.Label(top, text="How many five year periods?").grid(row=0, column=0)
 E1 = tk.Entry(top, bd = 2)
-E1.pack(side = 'top')
-L2 = tk.Label(top, text="Comma seperated, interest rates for those years:")
-L2.pack( side = 'left')
+E1.grid(row=0, column=1)
+L2 = tk.Label(top, text="Comma seperated, interest rates for those years:").grid(row=1, column=0)
 E2 = tk.Entry(top, bd =5)
-E2.pack(side = 'left')
-L3 = tk.Label(top, text="Comma seperated, annual contributions:")
-L3.pack( side = 'right')
+E2.grid(row=1, column=1)
+L3 = tk.Label(top, text="Comma seperated, annual contributions:").grid(row=2, column=0)
 E3 = tk.Entry(top, bd =8)
-E3.pack(side = 'right')
-b = tk.Button(top, text = 'DONE?', command=g)
-b.pack(side = 'bottom')
-
-def gatherData(HowManyFiveYearPeriods, contributions, interestRates):
-    i = 0
-    sum = 0
-    partialSums = []
-    while i < HowManyFiveYearPeriods:
-        x = 0
-        while x < 5:
-            sum += int(contributions[i])
-            sum += sum * (float(interestRates[i]) / 100)
-            x += 1
-        partialSums.append(sum/1000)
-        i += 1
-    return partialSums
+E3.grid(row=2, column=1)
+b = tk.Button(top, text='DONE?', command=g).grid(row=3, column=0)
 
 def BarChart(intRate, conts, FiveYears):
 
-    root = tk.Tk()
+
     root.title("Tkinter Bar and Pie Graph")
 
     #here is for bar chart............
 
-    tk.Label(root, text='Bar Chart').pack()
+    tk.Label(root, text='Bar Chart in thousands').pack()
 
     data = gatherData(FiveYears, conts, intRate)
-    print(data)
     c_width = 400
     c_height = 500
     c = tk.Canvas(root, width=c_width, height=c_height, bg= 'white')
@@ -79,5 +61,20 @@ def BarChart(intRate, conts, FiveYears):
         c.create_rectangle(x0, y0, x1, y1, fill="red")
         c.create_text(x0+2, y0, anchor=tk.SW, text=str(y))
 
-    root.mainloop()
+def gatherData(HowManyFiveYearPeriods, contributions, interestRates):
+    i = 0
+    sum = 0
+    partialSums = []
+    while i < HowManyFiveYearPeriods:
+        x = 0
+        while x < 5:
+            sum += int(contributions[i])
+            sum += sum * (float(interestRates[i]) / 100) #divide to shrink largest columns
+            x += 1
+        partialSums.append(sum/1000)
+        i += 1
+    return partialSums
+
+
+root.mainloop()
 top.mainloop()

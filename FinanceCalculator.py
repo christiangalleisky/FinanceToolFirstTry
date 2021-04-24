@@ -1,4 +1,7 @@
+
+
 import tkinter as tk
+
 
 HowManyFiveYearPeriods0, contributions0, interestRates0 = 0, 0, 0
 
@@ -69,12 +72,33 @@ def gatherData(HowManyFiveYearPeriods, contributions, interestRates):
         x = 0
         while x < 5:
             sum += int(contributions[i])
-            sum += sum * (float(interestRates[i]) / 100) #divide to shrink largest columns
+            sum += sum * (float(interestRates[i]) / 100)
             x += 1
-        partialSums.append(sum/1000)
+        partialSums.append(sum)
         i += 1
+    partialSums = normalizeList(partialSums)
     return partialSums
 
-
+def normalizeList(sList):
+    i = 0
+    x = len(sList) - 1
+    shallowCopy = sList[x]#largest element in list
+    while True:
+        if (shallowCopy / 10.0) < 10.0 :
+            break
+        else:
+            shallowCopy /= 10.0
+            i += 1 
+    y = 0
+    for z in sList:
+        u = i - 1 #subtract one iteration to make largest pole, large.
+        while u > 0:
+            z /= 10.0
+            u -= 1
+        sList[y] = z
+        y += 1
+    return sList
+    
+    
 root.mainloop()
 top.mainloop()
